@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello uTools Translate</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        #in {
+            width: 100%;
+            height: 230px;
+        }
+
+        #bar button {
+            height: 30px;
+            width: 80px;
+        }
+
+        #select {
+            float: left;
+        }
+
+        #direction {
+            float: right;
+        }
+
+        #out {
+            width: 100%;
+            height: 230px;
+        }
+    </style>
+</head>
+
+<body>
+    <textarea id="in" placeholder="请输入需要翻译的内容"></textarea>
+    <div id="bar">
+        <div id="select">
+            <button id="deepl">DeepL</button>
+            <button id="google" disabled>谷歌翻译</button>
+            <button id="fanyijun">翻译君</button>
+        </div>
+        <div id="direction">
+            <button id="auto" disabled>自动</button>
+            <button id="zhcn-en">中->英</button>
+            <button id="en-zhcn">英->中</button>
+        </div>
+    </div>
+    <textarea id="out" readonly></textarea>
+
+    <script src="lib/translate.js"></script>
+    <script src="lib/deepl.js"></script>
+    <script src="lib/google.js"></script>
+    <script src="lib/fanyijun.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
