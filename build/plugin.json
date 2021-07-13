@@ -2,7 +2,6 @@
     "pluginName": "翻译",
     "description": "一个比较轻巧的翻译插件，很不巧的是它依然需要联网。",
     "main": "index.html",
-    "preload": "preload.js",
     "author": "青石",
     "homepage": "https://www.qs5.org/?utools-translate",
     "version": "0.0.1",
@@ -26,8 +25,5 @@
                 }
             ]
         }
-    ],
-    "development": {
-        "main": "http://127.0.0.1/utools/Translation/index.html"
-    }
+    ]
 }

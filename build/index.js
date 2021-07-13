@@ -10,6 +10,12 @@ let in_text = '',
         fanyijun: Tencent_FanYiJun_SDK,
     });
 
+// 依次初始化
+for (const key in translate.sdk_list) {
+    if (typeof translate.sdk_list[key]['init'] == "function") {
+        translate.sdk_list[key]['init']();
+    }
+}
 
 // 监听按钮事件
 document.getElementById('select').addEventListener('click', (event) => {
