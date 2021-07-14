@@ -1,2 +1,3 @@
-# uTools-Translation
-适用于uTools的翻译插件
+# uTools 翻译插件
+
+一个比较轻巧的翻译插件，很不巧的是它依然需要联网。

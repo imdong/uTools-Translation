@@ -17,7 +17,7 @@
         });
 
         ajax("http://api.interpreter.caiyunai.com/v1/translator",post_body, result => {
-            console.log(result)
+            cb(`彩云小译 token 申请中...`);
         }, xhr => {
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.setRequestHeader("X-Authorization", "token: " + token);
