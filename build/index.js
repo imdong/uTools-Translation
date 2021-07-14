@@ -8,7 +8,8 @@ let in_text = '',
         deepl: DeepL_TranslateApi,
         google: GoogleTranslateApi,
         fanyijun: Tencent_FanYiJun_SDK,
-        tencent: TencentTranslateSDK
+        tencent: TencentTranslateSDK,
+        aliyun: AliyunTranslateSDK,
     });
 
 // 依次初始化
