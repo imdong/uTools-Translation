@@ -9,14 +9,16 @@
         };
 
     api.prototype.init = function () {
-        ajax('https://fanyi.qq.com/api/reauth1232f', '', (result) => {
-            let data = JSON.parse(result);
-
-            console.log('init', this, data, result);
-
-            this.qtv = data.qtv;
-            this.qtk = data.qtk;
-        });
+        // 先获取认证地址
+        ajax("https://fanyi.qq.com/", result => {
+            let reauthuri = result.match(/var\s+reauthuri\s*=\s*['"]([^'"]+)['"];/)[1];
+            // 再去请求接口数据
+            ajax('https://fanyi.qq.com/api/' + reauthuri, '', (result) => {
+                let data = JSON.parse(result);
+                this.qtv = data.qtv;
+                this.qtk = data.qtk;
+            });
+        })
     }
 
     /**
