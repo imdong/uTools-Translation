@@ -13,12 +13,12 @@
 
         #in {
             width: 100%;
-            height: 30px;
+            height: 230px;
         }
 
         #bar button {
             height: 30px;
-            width: 80px;
+            width: 70px;
         }
 
         #select {
@@ -39,13 +39,7 @@
 <body>
     <textarea id="in" placeholder="请输入需要翻译的内容">好好学习</textarea>
     <div id="bar">
-        <div id="select">
-            <button id="deepl">DeepL</button>
-            <button id="google" disabled>谷歌翻译</button>
-            <button id="fanyijun">翻译君</button>
-            <button id="tencent">腾讯翻译</button>
-            <button id="aliyun">阿里云</button>
-        </div>
+        <div id="select"></div>
         <div id="direction">
             <button id="auto" disabled>自动</button>
             <button id="zhcn-en">中->英</button>
@@ -54,12 +48,22 @@
     </div>
     <textarea id="out" readonly></textarea>
 
+    <script>
+        window.sdk_list = [];
+        function regSDK(name, sdk, title, is_default) {
+            is_default = is_default || false
+            sdk_list.push({ name, sdk, title, is_default })
+        }
+    </script>
+
     <script src="lib/translate.js"></script>
     <script src="lib/deepl.js"></script>
     <script src="lib/google.js"></script>
     <script src="lib/fanyijun.js"></script>
     <script src="lib/tencent.js"></script>
     <script src="lib/aliyun.js"></script>
+    <script src="lib/caiyun.js"></script>
+    <script src="lib/baidu.js"></script>
     <script src="index.js"></script>
 </body>
 

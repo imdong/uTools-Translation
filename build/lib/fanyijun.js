@@ -53,4 +53,6 @@
     }
 
     window.Tencent_FanYiJun_SDK = new api();
+
+    regSDK('fanyijun', new api(), '翻译君', false);
 })();

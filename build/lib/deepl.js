@@ -24,4 +24,6 @@
     }
 
     window.DeepL_TranslateApi = new api();
+
+    regSDK('deepl', new api(), 'DeepL', false);
 })();

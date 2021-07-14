@@ -112,5 +112,7 @@
     }
 
     window.TencentTranslateSDK = new sdk();
+
+    regSDK('tencent', new sdk(), '腾讯翻译', true);
 })()
 

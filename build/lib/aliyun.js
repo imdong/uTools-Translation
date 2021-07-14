@@ -97,5 +97,5 @@
         req.end();
     }
 
-    window.AliyunTranslateSDK = new sdk();
+    regSDK('aliyun', new sdk(), '阿里云', false);
 })()

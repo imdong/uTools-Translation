@@ -86,4 +86,6 @@
     }
 
     window.GoogleTranslateApi = new api();
+
+    regSDK('google', new api(), '谷歌翻译', true);
 })('444630.468464038');

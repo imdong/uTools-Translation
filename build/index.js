@@ -2,15 +2,36 @@ let in_text = '',
     delay_id = null,
     in_dom = document.getElementById('in'),
     out_dom = document.getElementById('out'),
+    select_dom = document.getElementById('select'),
     select = 'google',
     direction = 'auto',
-    translate = new Translate({
-        deepl: DeepL_TranslateApi,
-        google: GoogleTranslateApi,
-        fanyijun: Tencent_FanYiJun_SDK,
-        tencent: TencentTranslateSDK,
-        aliyun: AliyunTranslateSDK,
-    });
+    sdks = {},
+    use_default = false;
+
+for (const key in sdk_list) {
+    let item = sdk_list[key];
+    sdks[item.name] = item.sdk;
+
+    // 追加到翻译按钮上
+    let btn = document.createElement('button');
+    btn.id = item.name;
+    btn.innerText = item.title;
+    if (item.is_default && !use_default) {
+        use_default = true;
+        btn.disabled = true;
+        select = item.name;
+    }
+    select_dom.append(btn);
+}
+
+// 到现在还没有默认就第一个为默认
+if (!use_default) {
+    let def_dom = select_dom.querySelector('button');
+    select = def_dom.id;
+    def_dom.disabled = true;
+}
+
+let translate = new Translate(sdks);
 
 // 依次初始化
 for (const key in translate.sdk_list) {
@@ -20,7 +41,7 @@ for (const key in translate.sdk_list) {
 }
 
 // 监听按钮事件
-document.getElementById('select').addEventListener('click', (event) => {
+select_dom.addEventListener('click', (event) => {
     document.getElementById(select).disabled = false;
     select = event.target.id;
     document.getElementById(select).disabled = true;
@@ -105,3 +126,4 @@ if (typeof utools == 'object') {
         })
     });
 }
+
