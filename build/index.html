@@ -12,7 +12,8 @@
             margin-right: 6px;
         }
 
-        #in, #out {
+        #in,
+        #out {
             height: 225px;
         }
 
@@ -46,9 +47,24 @@
         #bottom {
             text-align: center;
         }
+
         #copy {
             height: 30px;
             width: 140px;
+        }
+
+        #copyright {
+            float: right;
+            font-size: xx-small;
+            color: #ccc;
+            padding-top: 20px;
+        }
+
+        #hi {
+            float: left;
+            opacity: 0.05;
+            font-size: xx-small;
+            padding-top: 15px;
         }
     </style>
 </head>
@@ -65,7 +81,9 @@
     </div>
     <textarea id="out" readonly></textarea>
     <div id="bottom">
+        <div id="hi">你瞅啥？</div>
         <button id="copy">复制 ( Ctrl + C )</button>
+        <div id="copyright">©️ ImDong</div>
     </div>
 
     <script>

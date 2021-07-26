@@ -3,6 +3,7 @@ let in_text = '',
     in_dom = document.getElementById('in'),
     out_dom = document.getElementById('out'),
     select_dom = document.getElementById('select'),
+    copy_dom = document.getElementById('copy'),
     select = 'google',
     direction = 'auto',
     sdks = {},
@@ -54,22 +55,6 @@ document.getElementById('direction').addEventListener('click', (event) => {
 in_dom.addEventListener('keypress', filter_delay);
 in_dom.addEventListener('compositionend', filter_delay);
 in_dom.focus();
-
-// 复制结果
-document.getElementById('copy').addEventListener('click', onCpoy);
-document.addEventListener('keydown', function (oEvent) {
-    let env = exports.sys_env,
-        ctrl = env.mac ? 'metaKey' : 'ctrlKey';
-
-    if (oEvent[ctrl] && oEvent.code == 'KeyC') {
-        onCpoy(oEvent);
-    }
-});
-
-// 复制文本
-function onCpoy(event) {
-    exports.copy(out_dom.value);
-}
 
 /**
  * 过滤输入抖动
@@ -136,5 +121,27 @@ if (typeof utools == 'object') {
             translate.sdk_list[key]['init']();
         }
     }
+
+    // 复制结果
+    copy_dom.addEventListener('click', onCpoy);
+    document.addEventListener('keydown', function (oEvent) {
+        let ctrl_key = utools.isMacOs() ? 'metaKey' : 'ctrlKey';
+
+        if (oEvent[ctrl_key] && oEvent.code == 'KeyC') {
+            onCpoy(oEvent);
+        }
+    });
+
+    // 空的复制
+    function onCpoy(event) {
+        utools.copyText(out_dom.value);
+        utools.hideMainWindow();
+    }
+
+    // 设置复制按钮标题
+    if (utools.isMacOs()) {
+        copy_dom.innerText = "复制 ( Cmd + C )";
+    }
+
 }
 
