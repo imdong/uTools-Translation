@@ -46,6 +46,8 @@
     };
 
     api.prototype.go = function (Text, sourceLanguage, toLanguage, cb) {
+        console.log(Text);
+
         let data = {
             client: 'webapp',
             sl: languageMap[sourceLanguage],
@@ -78,10 +80,14 @@
         });
 
         ajax(api_url + '?' + queryData.join('&'), (result, xhr) => {
-            console.log(result);
+            let data = JSON.parse(xhr.responseText),
+                ret_data = '';
 
-            let data = JSON.parse(xhr.responseText);
-            cb(data['0']['0']['0']);
+            data['0'].forEach(item => {
+                ret_data += item[0];
+            });
+
+            cb(ret_data);
         })
     }
 

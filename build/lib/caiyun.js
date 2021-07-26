@@ -1,5 +1,5 @@
 (function () {
-    const token = "3975l6lr5pcbvidl6jl2";
+    const token = "aq67gv3eaui7rcasvsgz";
     const languageMap = {
         zhcn: "zh",
         en: "en",
@@ -16,11 +16,13 @@
             request_id: "demo"
         });
 
-        ajax("http://api.interpreter.caiyunai.com/v1/translator",post_body, result => {
-            cb(`彩云小译 token 申请中...`);
+        ajax("http://api.interpreter.caiyunai.com/v1/translator",post_body, (result, xhr) => {
+            let data = JSON.parse(result);
+            console.log(result, data);
+            cb(data.target);
         }, xhr => {
             xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.setRequestHeader("X-Authorization", "token: " + token);
+            xhr.setRequestHeader("X-Authorization", "token " + token);
         });
     }
 
