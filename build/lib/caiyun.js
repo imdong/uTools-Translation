@@ -8,17 +8,18 @@
     let sdk = function () { };
 
     sdk.prototype.go = function (text, source, target, cb) {
+
+
         let post_body = JSON.stringify({
             source: text,
-            trans_type: 'en2zh',
+            trans_type: `${languageMap[source]}2${languageMap[target]}`,
             replaced: true,
             media: "text",
-            request_id: "demo"
+            request_id: "utools_" + (new Date()).getTime() + '_' + Math.random()
         });
 
-        ajax("http://api.interpreter.caiyunai.com/v1/translator",post_body, (result, xhr) => {
+        ajax("http://api.interpreter.caiyunai.com/v1/translator", post_body, result => {
             let data = JSON.parse(result);
-            console.log(result, data);
             cb(data.target);
         }, xhr => {
             xhr.setRequestHeader("Content-Type", "application/json");
