@@ -31,14 +31,8 @@ if (!use_default) {
     def_dom.disabled = true;
 }
 
+// 构建翻译对象
 let translate = new Translate(sdks);
-
-// 依次初始化
-for (const key in translate.sdk_list) {
-    if (typeof translate.sdk_list[key]['init'] == "function") {
-        translate.sdk_list[key]['init']();
-    }
-}
 
 // 监听按钮事件
 select_dom.addEventListener('click', (event) => {
@@ -61,6 +55,22 @@ in_dom.addEventListener('keypress', filter_delay);
 in_dom.addEventListener('compositionend', filter_delay);
 in_dom.focus();
 
+// 复制结果
+document.getElementById('copy').addEventListener('click', onCpoy);
+document.addEventListener('keydown', function (oEvent) {
+    let env = exports.sys_env,
+        ctrl = env.mac ? 'metaKey' : 'ctrlKey';
+
+    if (oEvent[ctrl] && oEvent.code == 'KeyC') {
+        onCpoy(oEvent);
+    }
+});
+
+// 复制文本
+function onCpoy(event) {
+    exports.copy(out_dom.value);
+}
+
 /**
  * 过滤输入抖动
  * @param {*} text 
@@ -71,7 +81,12 @@ function filter_delay(timeout) {
     // 设置定时器 用于输入抖动
     delay_id && clearTimeout(delay_id);
     delay_id = setTimeout(() => {
-        translate.go(in_dom.value, select, direction, out_dom);
+        out_dom.value = "翻译中...";
+        try {
+            translate.go(in_dom.value, select, direction, out_dom);
+        } catch (error) {
+            out_dom.value = "啊哦，出错啦!!1";
+        }
     }, timeout);
 }
 
@@ -104,26 +119,22 @@ function ajax(url, data, cb, before) {
     xhr.send(data);
 }
 
+// 仅 uTools 环境下执行
 if (typeof utools == 'object') {
     utools.onPluginReady(() => {
         utools.onPluginEnter((action) => {
-            // if (action.code == "translate") {
-            //     // utools.setExpendHeight(0);
-            //     utools.setSubInput((action) => {
-            //         in_dom.value = action.text;
-            //         if (in_dom.value.length > 20) {
-            //             utools.removeSubInput()
-            //             utools.setExpendHeight(500);
-            //         }
-
-            //         filter_delay();
-            //     }, "请输入要翻译的内容");
-            // } else
             if (action.code == 'translate_over') {
                 in_dom.value = action.payload;
                 filter_delay(0)
             }
         })
     });
+
+    // 依次初始化 各插件
+    for (const key in translate.sdk_list) {
+        if (typeof translate.sdk_list[key]['init'] == "function") {
+            translate.sdk_list[key]['init']();
+        }
+    }
 }
 

@@ -9,11 +9,20 @@
     <style>
         body {
             margin: 0;
+            margin-right: 6px;
+        }
+
+        #in, #out {
+            height: 225px;
         }
 
         #in {
             width: 100%;
-            height: 230px;
+        }
+
+        #bar {
+            margin-left: 6px;
+            height: 30px;
         }
 
         #bar button {
@@ -31,7 +40,15 @@
 
         #out {
             width: 100%;
-            height: 230px;
+            margin-top: 6px;
+        }
+
+        #bottom {
+            text-align: center;
+        }
+        #copy {
+            height: 30px;
+            width: 140px;
         }
     </style>
 </head>
@@ -47,9 +64,13 @@
         </div>
     </div>
     <textarea id="out" readonly></textarea>
+    <div id="bottom">
+        <button id="copy">复制 ( Ctrl + C )</button>
+    </div>
 
     <script>
         window.sdk_list = [];
+        // 用于主动注册 各SDK 的钩子
         function regSDK(name, sdk, title, is_default) {
             is_default = is_default || false
             sdk_list.push({ name, sdk, title, is_default })
