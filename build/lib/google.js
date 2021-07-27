@@ -1,29 +1,24 @@
-(function (ttk) {
+(function () {
+    // 基础信息
     let api_url = 'https://translate.google.cn/translate_a/single',
+        // 语言对照表
         languageMap = {
             zhcn: 'zh-CN',
             en: 'en'
-        },
-        api = function (_ttk) {
-            ttk = _ttk || ttk || '';
-        },
-        ou = function (a) {
-            return function () {
-                return a
-            }
-        },
-        pu = function (a, b) {
-            for (var c = 0; c < b.length - 2; c += 3) {
-                var d = b.charAt(c + 2);
-                d = "a" <= d ? d.charCodeAt(0) - 87 : Number(d);
-                d = "+" == b.charAt(c + 1) ? a >>> d : a << d;
-                a = "+" == b.charAt(c) ? a + d & 4294967295 : a ^ d
-            }
-            return a
         };
 
-    api.prototype.getTk = function (a) {
-        var b = ttk;
+    // 解决ttk 的问题
+    function pu(a, b) {
+        for (var c = 0; c < b.length - 2; c += 3) {
+            var d = b.charAt(c + 2);
+            d = "a" <= d ? d.charCodeAt(0) - 87 : Number(d);
+            d = "+" == b.charAt(c + 1) ? a >>> d : a << d;
+            a = "+" == b.charAt(c) ? a + d & 4294967295 : a ^ d
+        }
+        return a
+    };
+    function getTk(a) {
+        var b = '444630.468464038';
         d = b.split(".");
         b = Number(d[0]) || 0;
         for (var e = [], f = 0, g = 0; g < a.length; g++) {
@@ -45,13 +40,20 @@
         return (a.toString() + "." + (a ^ b))
     };
 
-    api.prototype.go = function (Text, sourceLanguage, toLanguage, cb) {
-        console.log(Text);
+    // sdk 主要部分
+    let api = {
+        name: "google",
+        title: "谷歌翻译",
+        languages: ['auto', 'zhcn', 'en'],
+        options: null, // 表示不需要配置
+        is_default: true, // 表示自己希望成为默认值
+    };
 
+    api.go = function (text, source, target) {
         let data = {
             client: 'webapp',
-            sl: languageMap[sourceLanguage],
-            tl: languageMap[toLanguage],
+            sl: languageMap[source],
+            tl: languageMap[target],
             hl: 'zh-CN',
             dt: 'at',
             dt: 'bd',
@@ -70,8 +72,8 @@
             tsel: 0,
             xid: 45662847,
             kc: 1,
-            tk: this.getTk(Text),
-            q: Text
+            tk: getTk(text),
+            q: text
         },
             queryData = [];
 
@@ -91,7 +93,5 @@
         })
     }
 
-    window.GoogleTranslateApi = new api();
-
-    regSDK('google', new api(), '谷歌翻译', true);
-})('444630.468464038');
+    Translate.register(api);
+})();

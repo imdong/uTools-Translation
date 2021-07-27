@@ -6,12 +6,11 @@ let in_text = '',
     copy_dom = document.getElementById('copy'),
     select = 'google',
     direction = 'auto',
-    sdks = {},
-    use_default = false;
+    use_default = false,
+    translate = new Translate();
 
-for (const key in sdk_list) {
-    let item = sdk_list[key];
-    sdks[item.name] = item.sdk;
+for (const key in translate.getSdk()) {
+    let item = translate.getSdk(key);
 
     // 追加到翻译按钮上
     let btn = document.createElement('button');
@@ -31,9 +30,6 @@ if (!use_default) {
     select = def_dom.id;
     def_dom.disabled = true;
 }
-
-// 构建翻译对象
-let translate = new Translate(sdks);
 
 // 监听按钮事件
 select_dom.addEventListener('click', (event) => {
@@ -143,6 +139,4 @@ if (typeof utools == 'object') {
     if (utools.isMacOs()) {
         copy_dom.innerText = "复制 ( Cmd + C )";
     }
-
 }
-

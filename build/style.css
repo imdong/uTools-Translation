@@ -1,0 +1,62 @@
+body {
+    margin: 0;
+    margin-right: 6px;
+}
+
+#in,
+#out {
+    height: 225px;
+}
+
+#in {
+    width: 100%;
+}
+
+#bar {
+    height: 30px;
+}
+
+#bar button {
+    height: 30px;
+    width: 70px;
+}
+
+#select {
+    float: left;
+}
+
+#select button {
+    margin-left: 6px;
+}
+
+#direction {
+    float: right;
+}
+
+#out {
+    width: 100%;
+    margin-top: 6px;
+}
+
+#bottom {
+    text-align: center;
+}
+
+#copy {
+    height: 30px;
+    width: 140px;
+}
+
+#copyright {
+    float: right;
+    font-size: xx-small;
+    color: #ccc;
+    padding-top: 20px;
+}
+
+#hi {
+    float: left;
+    opacity: 0.05;
+    font-size: xx-small;
+    padding-top: 15px;
+}
