@@ -5,7 +5,7 @@
     "preload": "preload.js",
     "author": "青石",
     "homepage": "https://www.qs5.org/?utools-translate",
-    "version": "0.0.1",
+    "version": "0.1.1",
     "logo": "logo_blue.png",
     "pluginSetting": {
         "height": 543

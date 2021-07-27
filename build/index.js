@@ -68,8 +68,9 @@ function filter_delay(timeout) {
     delay_id = setTimeout(() => {
         out_dom.value = "翻译中...";
         try {
-            translate.go(in_dom.value.trim(), select, direction, out_dom);
+            translate.go(in_dom.value, select, direction, out_dom);
         } catch (error) {
+            console.log(error);
             out_dom.value = "啊哦，出错啦!!1";
         }
     }, timeout);
