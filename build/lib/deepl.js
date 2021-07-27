@@ -16,9 +16,7 @@
         let jobs = [];
 
         // 以换行分段
-        let lines = Text.trim().split('\n').map(function (line) {
-            return line.trim()
-        });
+        let lines = Text.split('\n');
         for (let i = 0; i < lines.length; i++) {
             const job = {
                 "kind": "default",

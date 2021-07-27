@@ -46,9 +46,21 @@
 
         ajax('https://fanyi.qq.com/api/translate', post.join('&'), (result) => {
             let data = JSON.parse(result);
-            cb(data.translate.records[0].targetText);
+
+            cb(data.translate.records.map(record => {
+                return record.targetText;
+            }).join(''));
         }, (xhr) => {
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+            
+            // 没有 UC 也能用 但不知道咋回事 先不管了
+            // var uc = CryptoJS.AES.encrypt(`266|${Date.now()}|460`, CryptoJS.enc.Utf8.parse('skvrjylxqadpfubt'), {
+            //     iv: CryptoJS.enc.Utf8.parse('kfpucgwiaxzdqhje'),
+            //     mode: CryptoJS.mode.CBC,
+            //     padding: CryptoJS.pad.Pkcs7
+            // }).toString();
+            // xhr.setRequestHeader('uc', uc)
         })
     }
 
