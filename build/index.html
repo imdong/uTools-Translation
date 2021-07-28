@@ -29,21 +29,10 @@
         <div id="copyright">©️ ImDong</div>
     </div>
 
-    <script>
-        window.sdk_list = [];
-        // 用于主动注册 各SDK 的钩子
-        function regSDK(name, sdk, title, is_default) {
-            is_default = is_default || false
-            sdk_list.push({ name, sdk, title, is_default })
-        }
-    </script>
-
     <script src="translate.js"></script>
-
+    <script src="lib/deepl.js"></script>
     <script src="lib/google.js"></script>
-    
-    <!-- <script src="lib/deepl.js"></script> -->
-    
+
     <!-- <script src="lib/fanyijun.js"></script>
     <script src="lib/tencent.js"></script>
     <script src="lib/aliyun.js"></script>

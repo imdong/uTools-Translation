@@ -48,8 +48,9 @@ document.getElementById('direction').addEventListener('click', (event) => {
 });
 
 // 输入框事件
-in_dom.addEventListener('keypress', filter_delay);
-in_dom.addEventListener('compositionend', filter_delay);
+['keypress', 'change', 'keydown', 'compositionend'].map((event) => {
+    in_dom.addEventListener(event, filter_delay);
+});
 in_dom.focus();
 
 /**
@@ -62,9 +63,17 @@ function filter_delay(timeout) {
     // 设置定时器 用于输入抖动
     delay_id && clearTimeout(delay_id);
     delay_id = setTimeout(() => {
-        out_dom.value = "翻译中...";
         try {
-            translate.go(in_dom.value, select, direction, out_dom);
+            if (timeout == 0 || in_text != in_dom.value) {
+                out_dom.value = "翻译中...";
+
+                in_text = in_dom.value;
+                translate.go(in_dom.value, select, direction).then(result => {
+                    out_dom.value = result;
+                }).catch(err => {
+                    out_dom.value = "啊哦，出错啦!!1";
+                });
+            }
         } catch (error) {
             console.log(error);
             out_dom.value = "啊哦，出错啦!!1";

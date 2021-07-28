@@ -44,7 +44,7 @@
      * @param {*} source 
      * @param {*} to 
      */
-    Translate.prototype.go = function (text, sdk, direction, out) {
+    Translate.prototype.go = function (text, sdk, direction) {
         let source_language = 'en', out_language = 'zhcn';
         switch (direction) {
             case 'auto':
@@ -61,12 +61,11 @@
 
         // 判断运行时环境 调用对应的 SDK 执行
         if (typeof utools == "object") {
-            return this.sdk_list[sdk].go(text, source_language, out_language);
+            return sdk_list[sdk].go(text, source_language, out_language);
         } else {
             out.value = `${sdk} Result (${source_language} => ${out_language}): ${text}`
         }
     }
 
     window.Translate = Translate;
-
-})()
+})();

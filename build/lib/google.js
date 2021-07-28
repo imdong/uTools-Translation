@@ -81,16 +81,18 @@
             queryData.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
         });
 
-        ajax(api_url + '?' + queryData.join('&'), (result, xhr) => {
-            let data = JSON.parse(xhr.responseText),
-                ret_data = '';
+        return new Promise(function (resolve, reject) {
+            ajax(api_url + '?' + queryData.join('&'), (result, xhr) => {
+                let data = JSON.parse(xhr.responseText),
+                    ret_data = '';
 
-            data['0'].forEach(item => {
-                ret_data += item[0];
-            });
+                data['0'].forEach(item => {
+                    ret_data += item[0];
+                });
 
-            cb(ret_data);
-        })
+                resolve(ret_data);
+            })
+        });
     }
 
     Translate.register(api);
