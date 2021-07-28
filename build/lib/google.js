@@ -41,7 +41,7 @@
     };
 
     // sdk 主要部分
-    let api = {
+    let sdk = {
         name: "google",
         title: "谷歌翻译",
         languages: ['auto', 'zhcn', 'en'],
@@ -49,7 +49,7 @@
         is_default: true, // 表示自己希望成为默认值
     };
 
-    api.go = function (text, source, target) {
+    sdk.go = function (text, source, target) {
         let data = {
             client: 'webapp',
             sl: languageMap[source],
@@ -95,5 +95,5 @@
         });
     }
 
-    Translate.register(api);
+    Translate.register(sdk);
 })();

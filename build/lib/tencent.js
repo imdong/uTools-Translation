@@ -1,15 +1,4 @@
 (function () {
-    // 密钥参数
-    const SECRET_ID = "AKIDc4FApDLCm69vRgeMnysVrxmKaaKn0wd3"
-    const SECRET_KEY = "A492e04tSkqgF6g15sOdbIirjKehTzEC"
-
-    const endpoint = "tmt.tencentcloudapi.com"
-    const service = "tmt"
-    const region = "ap-guangzhou"
-    const action = "TextTranslate"
-    const version = "2018-03-21"
-
-
     function sha256(message, secret = '', encoding) {
         const hmac = exports.crypto.createHmac('sha256', secret)
         return hmac.update(message).digest(encoding)
@@ -84,8 +73,15 @@
         en: 'en'
     };
 
-    let sdk = function () {
-
+    // sdk 主要部分
+    let sdk = {
+        name: "tencent",
+        title: "腾讯翻译",
+        languages: ['auto', 'zhcn', 'en'],
+        options: {
+            'secret_id': {}
+        }, 
+        is_default: true, // 表示自己希望成为默认值
     };
 
     sdk.prototype.go = function (text, source, to, cb) {
@@ -111,8 +107,7 @@
         });
     }
 
-    window.TencentTranslateSDK = new sdk();
 
-    regSDK('tencent', new sdk(), '腾讯翻译', true);
+    Translate.register(sdk);
 })()
 

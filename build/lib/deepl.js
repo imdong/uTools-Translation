@@ -9,7 +9,7 @@
             en: 'en-US'
         };
 
-    let api = {
+    let sdk = {
         name: "deelp",
         title: "DeepL",
         languages: ['auto', 'zhcn', 'en'],
@@ -17,7 +17,7 @@
         is_default: false, // 表示自己希望成为默认值
     };
 
-    api.go = function (Text, sourceLanguage, toLanguage, cb) {
+    sdk.go = function (Text, sourceLanguage, toLanguage, cb) {
         let timestamp = (new Date()).getTime() - 3000;
         req_id++;
 
@@ -64,5 +64,5 @@
         });
     }
 
-    Translate.register(api);
+    Translate.register(sdk);
 })();
