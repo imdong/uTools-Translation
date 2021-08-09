@@ -1,8 +1,4 @@
 (function () {
-    const serviceURL = "https://mt.cn-hangzhou.aliyuncs.com/api/translate/web/general"
-    const accessKeyId = "LTAI5t5ro8BfCZfzcXdg9UCx";
-    const accessKeySecret = "U2uj2B9i80LunpMDT7dlELLqyl71ZQ";
-
     /**
      * 签了个名
      * @returns 
@@ -24,24 +20,38 @@
             + "/api/translate/web/general";
 
         // 2.计算 HMAC-SHA1
-        const signature = exports.crypto.createHmac('sha1', accessKeySecret)
+        const signature = exports.crypto.createHmac('sha1', sdk.options.access_key_secret.value)
             .update(stringToSign)
             .digest('base64')
 
         // 打开和URL之间的连接
-        const authHeader = "acs " + accessKeyId + ":" + signature;
+        const authHeader = "acs " + sdk.options.access_key_id.value + ":" + signature;
 
         return { date, bodyMd5, uuid, authHeader }
     }
 
-    /**
-     * 
-     */
-    let sdk = function () { },
-        languageMap = {
-            zhcn: "zh",
-            en: "en",
-        };
+    languageMap = {
+        zhcn: "zh",
+        en: "en",
+    };
+
+    let sdk = {
+        name: "aliyun",
+        title: "阿里云",
+        languages: ['auto', 'zhcn', 'en'],
+        options: {
+            access_key_id: {
+                type: 'text',
+                label: 'Access Key Secret',
+                value: null
+            },
+            access_key_secret: {
+                type: 'text',
+                label: 'Access Key Secret',
+                value: null
+            }
+        }
+    };
 
     /**
      * 执行翻译请求
@@ -50,7 +60,7 @@
      * @param {*} to 
      * @param {*} cb 
      */
-    sdk.prototype.go = function (text, source, to, cb) {
+    sdk.go = function (text, source, to, cb) {
         let postBody = JSON.stringify({
             Action: "TranslateGeneral",
             FormatType: "text",
@@ -64,38 +74,45 @@
 
         let signature = buildSignature(postBody);
 
-        // 发起请求
-        let req = exports.https.request({
-            hostname: 'mt.cn-hangzhou.aliyuncs.com',
-            port: 443,
-            path: '/api/translate/web/general',
-            method: 'POST',
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json;chrset=utf-8",
-                "Content-MD5": signature.bodyMd5,
-                'Content-Length': postBody.length,
-                "Date": signature.date,
-                "Host": "mt.cn-hangzhou.aliyuncs.com",
-                "Authorization": signature.authHeader,
-                "x-acs-signature-nonce": signature.uuid,
-                "x-acs-signature-method": "HMAC-SHA1",
-                "x-acs-version": "2019-01-02",
-            }
-        }, res => {
-            let response = '';
-            res.on('data', (chunk) => {
-                response += chunk;
-            });
+        return new Promise((resolve, reject) => {
+            // 发起请求
+            let req = exports.https.request({
+                hostname: 'mt.cn-hangzhou.aliyuncs.com',
+                port: 443,
+                path: '/api/translate/web/general',
+                method: 'POST',
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json;chrset=utf-8",
+                    "Content-MD5": signature.bodyMd5,
+                    'Content-Length': postBody.length,
+                    "Date": signature.date,
+                    "Host": "mt.cn-hangzhou.aliyuncs.com",
+                    "Authorization": signature.authHeader,
+                    "x-acs-signature-nonce": signature.uuid,
+                    "x-acs-signature-method": "HMAC-SHA1",
+                    "x-acs-version": "2019-01-020",
+                }
+            }, res => {
+                let response = '';
+                res.on('data', (chunk) => {
+                    response += chunk;
+                });
 
-            // The whole response has been received. Print out the result.
-            res.on('end', () => {
-                cb(JSON.parse(response).Data.Translated);
+                // The whole response has been received. Print out the result.
+                res.on('end', () => {
+                    let data = JSON.parse(response);
+                    if(data.Code !== '200') {
+                        return reject(data.Message);
+                    }
+                    
+                    resolve(JSON.parse(response).Data.Translated);
+                });
             });
+            req.write(postBody)
+            req.end();
         });
-        req.write(postBody)
-        req.end();
     }
 
-    regSDK('aliyun', new sdk(), '阿里云', false);
+    Translate.register(sdk);
 })()
