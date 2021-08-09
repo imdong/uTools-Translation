@@ -112,9 +112,6 @@ function ajax(url, data, cb, before) {
 
 // 仅 uTools 环境下执行
 if (typeof utools == 'object') {
-
-    console.log('config', exports.config)
-
     utools.onPluginReady(() => {
         utools.onPluginEnter((action) => {
             if (action.code == 'translate_over') {
@@ -123,8 +120,6 @@ if (typeof utools == 'object') {
             }
         })
     });
-
-    console.log('translate', translate);
 
     // 依次初始化 各插件
     let sdk_list = translate.getSdk();
