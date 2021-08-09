@@ -115,7 +115,6 @@ if (typeof utools == 'object') {
 
     console.log('config', exports.config)
 
-
     utools.onPluginReady(() => {
         utools.onPluginEnter((action) => {
             if (action.code == 'translate_over') {
@@ -125,10 +124,28 @@ if (typeof utools == 'object') {
         })
     });
 
+    console.log('translate', translate);
+
     // 依次初始化 各插件
-    for (const key in translate.sdk_list) {
-        if (typeof translate.sdk_list[key]['init'] == "function") {
-            translate.sdk_list[key]['init']();
+    let sdk_list = translate.getSdk();
+    for (const sdk_name in sdk_list) {
+        console.log('init sdk', sdk_name);
+
+        // 检查插件是否需要初始化
+        if (typeof sdk_list[sdk_name]['init'] == "function") {
+            sdk_list[sdk_name]['init']();
+        }
+
+        
+        // 检查是否有配置需要设置
+        if (typeof exports.config.options[sdk_name] == 'object') {
+            console.log('set options', sdk_name);
+            for (const option_name in exports.config.options[sdk_name]) {
+                console.log('config', sdk_name, option_name);
+                if (typeof sdk_list[sdk_name].options[option_name] == 'object') {
+                    sdk_list[sdk_name].options[option_name].value = exports.config.options[sdk_name][option_name];
+                }
+            }
         }
     }
 
