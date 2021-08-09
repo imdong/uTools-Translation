@@ -85,6 +85,7 @@
             ajax(api_url + '?' + queryData.join('&'), (result, xhr) => {
                 let data = JSON.parse(xhr.responseText),
                     ret_data = '';
+                    console.log(data);
 
                 data['0'].forEach(item => {
                     ret_data += item[0];

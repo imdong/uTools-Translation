@@ -47,6 +47,8 @@
         return new Promise(function (resolve, reject) {
             ajax(api_url, post_data, (response, xhr) => {
                 let data = JSON.parse(xhr.responseText);
+                console.log(data);
+                
                 // 异常处理 {"jsonrpc": "2.0","error":{"code":1042912,"message":"Too many requests."}}
                 if (typeof data.error == "object") {
                     reject("出错啦：" + data.error.message);

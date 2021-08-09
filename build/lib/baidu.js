@@ -49,6 +49,7 @@
         return new Promise((resolve, reject) => {
             ajax('https://fanyi-api.baidu.com/api/trans/vip/translate', body.join('&'), result => {
                 let data = JSON.parse(result);
+                console.log(data);
                 
                 if(data.error_code){
                     return reject(data.error_msg);

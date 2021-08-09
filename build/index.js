@@ -71,7 +71,7 @@ function filter_delay(timeout) {
                 translate.go(in_dom.value, select, direction).then(result => {
                     out_dom.value = result;
                 }).catch(err => {
-                    out_dom.value = "啊哦，出错啦!!1";
+                    out_dom.value = "啊哦，出错啦!!1\n\n(" + err + ")";
                 });
             }
         } catch (error) {
@@ -131,7 +131,7 @@ if (typeof utools == 'object') {
             sdk_list[sdk_name]['init']();
         }
 
-        
+
         // 检查是否有配置需要设置
         if (typeof exports.config.options[sdk_name] == 'object') {
             console.log('set options', sdk_name);

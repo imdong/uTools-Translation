@@ -141,7 +141,8 @@
         return new Promise((resolve, reject) => {
             ajax("https://" + sdk.options.endpoint.value, payload, result => {
                 let data = JSON.parse(result).Response;
-
+                console.log(data);
+                
                 if(data.Error) {
                     reject(data.Error.Message);
                     return;

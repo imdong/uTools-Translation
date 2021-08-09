@@ -29,6 +29,8 @@
         return new Promise(function (resolve, reject) {
             ajax("http://api.interpreter.caiyunai.com/v1/translator", post_body, result => {
                 let data = JSON.parse(result);
+                console.log(data);
+                
                 if (data.message) {
                     return reject(data.message);
                 }
