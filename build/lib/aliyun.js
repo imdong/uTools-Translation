@@ -102,10 +102,10 @@
                 // The whole response has been received. Print out the result.
                 res.on('end', () => {
                     let data = JSON.parse(response);
-                    if(data.Code !== '200') {
+                    if (data.Code !== '200') {
                         return reject(data.Message);
                     }
-                    
+
                     resolve(JSON.parse(response).Data.Translated);
                 });
             });

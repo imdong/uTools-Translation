@@ -1,15 +1,23 @@
 (function () {
-    const token = "aq67gv3eaui7rcasvsgz";
     const languageMap = {
         zhcn: "zh",
         en: "en",
     };
 
-    let sdk = function () { };
+    let sdk = {
+        name: "caiyun",
+        title: "彩云小译",
+        languages: ['auto', 'zhcn', 'en'],
+        options: {
+            token: {
+                type: 'text',
+                label: 'token',
+                value: null
+            }
+        }
+    };
 
-    sdk.prototype.go = function (text, source, target, cb) {
-
-
+    sdk.go = function (text, source, target, cb) {
         let post_body = JSON.stringify({
             source: text,
             trans_type: `${languageMap[source]}2${languageMap[target]}`,
@@ -18,15 +26,21 @@
             request_id: "utools_" + (new Date()).getTime() + '_' + Math.random()
         });
 
-        ajax("http://api.interpreter.caiyunai.com/v1/translator", post_body, result => {
-            let data = JSON.parse(result);
-            cb(data.target);
-        }, xhr => {
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.setRequestHeader("X-Authorization", "token " + token);
+        return new Promise(function (resolve, reject) {
+            ajax("http://api.interpreter.caiyunai.com/v1/translator", post_body, result => {
+                let data = JSON.parse(result);
+                if (data.message) {
+                    return reject(data.message);
+                }
+
+                resolve(data.target);
+            }, xhr => {
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.setRequestHeader("X-Authorization", "token " + sdk.options.token.value);
+            });
         });
     }
 
     // 注册
-    regSDK('caiyun', new sdk(), '彩云小译', false);
+    Translate.register(sdk);
 })()
