@@ -66,5 +66,6 @@
         });
     }
 
+    // 注册
     Translate.register(sdk);
 })();
