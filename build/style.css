@@ -3,8 +3,7 @@ body {
     margin-right: 6px;
 }
 
-#in,
-#out {
+#in, #out {
     height: 225px;
 }
 
@@ -42,13 +41,18 @@ body {
     text-align: center;
 }
 
+#setting {
+    height: 30px;
+    float: right;
+}
+
 #copy {
     height: 30px;
     width: 140px;
 }
 
 #copyright {
-    float: right;
+    float: left;
     font-size: xx-small;
     color: #ccc;
     padding-top: 20px;
@@ -59,4 +63,73 @@ body {
     opacity: 0.05;
     font-size: xx-small;
     padding-top: 15px;
+}
+
+.hide {
+    display: none;
+}
+
+#options {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#options .mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #000;
+    opacity: 0.8;
+}
+
+#options-body {
+    position: fixed;
+    background: #fff;
+    width: 85%;
+    height: 80%;
+    margin: 5%;
+    padding: 15px;
+    opacity: 1;
+    top: 0;
+    border-radius: 10px;
+}
+
+#options-body .bottom {
+    text-align: center;
+}
+
+#options-body .bottom button {
+    height: 30px;
+    width: 80px;
+}
+
+.options-item {
+    /* float: left; */
+    width: 100%;
+}
+
+.options-item .title {
+    font-size: x-large;
+    text-align: center;
+    /* padding-left: 45px; */
+}
+
+.input {
+    height: 30px;
+}
+
+.input label {
+    width: 20%;
+    display: inline-block;
+    /* text-align: right; */
+}
+
+.input input {
+    width: 70%;
+    height: 20px;
 }

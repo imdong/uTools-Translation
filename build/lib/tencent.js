@@ -1,4 +1,11 @@
 (function () {
+
+    let endpoint = "tmt.tencentcloudapi.com",
+        region = "ap-guangzhou",
+        service = "tmt",
+        action = 'TextTranslate',
+        version = "2018-03-21";
+        
     function sha256(message, secret = '', encoding) {
         const hmac = exports.crypto.createHmac('sha256', secret)
         return hmac.update(message).digest(encoding)
@@ -29,7 +36,7 @@
         const httpRequestMethod = "POST"
         const canonicalUri = "/"
         const canonicalQueryString = ""
-        const canonicalHeaders = "content-type:application/json; charset=utf-8\n" + "host:" + sdk.options.endpoint.value + "\n"
+        const canonicalHeaders = "content-type:application/json; charset=utf-8\n" + "host:" + endpoint + "\n"
 
         const canonicalRequest = httpRequestMethod + "\n"
             + canonicalUri + "\n"
@@ -42,7 +49,7 @@
         // ************* 步骤 2：拼接待签名字符串 *************
         const algorithm = "TC3-HMAC-SHA256"
         const hashedCanonicalRequest = getHash(canonicalRequest);
-        const credentialScope = date + "/" + sdk.options.service.value + "/" + "tc3_request"
+        const credentialScope = date + "/" + service + "/" + "tc3_request"
         const stringToSign = algorithm + "\n" +
             timestamp + "\n" +
             credentialScope + "\n" +
@@ -51,7 +58,7 @@
 
         // ************* 步骤 3：计算签名 *************
         const kDate = sha256(date, 'TC3' + sdk.options.secret_key.value)
-        const kService = sha256(sdk.options.service.value, kDate)
+        const kService = sha256(service, kDate)
         const kSigning = sha256('tc3_request', kService)
         const signature = sha256(stringToSign, kSigning, 'hex')
         console.log(signature)
@@ -88,32 +95,6 @@
                 type: 'text',
                 label: 'Secret Key',
                 value: null
-            },
-            endpoint: {
-                // 只读
-                type: 'only_read',
-                label: 'Endpoint',
-                value: 'tmt.tencentcloudapi.com'
-            },
-            region: {
-                type: 'only_read',
-                label: 'Region',
-                value: 'ap-guangzhou',
-            },
-            service: {
-                type: 'hidden',
-                label: 'Service',
-                value: 'tmt'
-            },
-            action: {
-                type: 'hidden',
-                label: 'Action',
-                value: 'TextTranslate'
-            },
-            version: {
-                type: 'hidden',
-                label: 'Version',
-                value: '2018-03-21'
             }
         },
         is_default: true, // 表示自己希望成为默认值
@@ -139,11 +120,11 @@
             request = build_request(payload);
 
         return new Promise((resolve, reject) => {
-            ajax("https://" + sdk.options.endpoint.value, payload, result => {
+            ajax("https://" + endpoint, payload, result => {
                 let data = JSON.parse(result).Response;
                 console.log(data);
-                
-                if(data.Error) {
+
+                if (data.Error) {
                     reject(data.Error.Message);
                     return;
                 }
@@ -152,11 +133,11 @@
             }, xhr => {
                 xhr.setRequestHeader('Authorization', request.authorization);
                 xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-                // xhr.setRequestHeader('Host', sdk.options.endpoint.value);
-                xhr.setRequestHeader('X-TC-Action', sdk.options.action.value);
+                // xhr.setRequestHeader('Host', endpoint);
+                xhr.setRequestHeader('X-TC-Action', action);
                 xhr.setRequestHeader('X-TC-Timestamp', request.timestamp);
-                xhr.setRequestHeader('X-TC-Version', sdk.options.version.value);
-                xhr.setRequestHeader('X-TC-Region', sdk.options.region.value);
+                xhr.setRequestHeader('X-TC-Version', version);
+                xhr.setRequestHeader('X-TC-Region', region);
             });
         });
     }

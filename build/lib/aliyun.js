@@ -42,7 +42,7 @@
         options: {
             access_key_id: {
                 type: 'text',
-                label: 'Access Key Secret',
+                label: 'Access Key Id',
                 value: null
             },
             access_key_secret: {
