@@ -86,15 +86,19 @@ function filter_delay(timeout) {
     delay_id && clearTimeout(delay_id);
     delay_id = setTimeout(() => {
         try {
-            if (timeout == 0 || in_text != in_dom.value) {
-                out_dom.value = "翻译中...";
+            if ((timeout == 0 || in_text != in_dom.value)) {
+                if (in_dom.value.trim().length > 0) {
+                    out_dom.value = "翻译中...";
 
-                in_text = in_dom.value;
-                translate.go(in_dom.value, select, direction).then(result => {
-                    out_dom.value = result;
-                }).catch(err => {
-                    out_dom.value = "啊哦，出错啦!!1\n\n(" + err + ")";
-                });
+                    in_text = in_dom.value;
+                    translate.go(in_dom.value, select, direction).then(result => {
+                        out_dom.value = result;
+                    }).catch(err => {
+                        out_dom.value = "啊哦，出错啦!!1\n\n(" + err + ")";
+                    });
+                } else {
+                    out_dom.value = '';
+                }
             }
         } catch (error) {
             console.log(error);
@@ -192,7 +196,7 @@ function loadConfig() {
     let result = utools.db.get("config");
     console.log(result);
 
-    if(result) {
+    if (result) {
         config_rev = result._rev;
         exports.config = JSON.parse(result.data);
     }
