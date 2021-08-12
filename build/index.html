@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello uTools Translate</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="font/iconfont.css">
 </head>
 
 <body>
@@ -14,11 +16,15 @@
         <div id="main">
             <textarea id="in" placeholder="请输入需要翻译的内容"></textarea>
             <div id="bar">
+                <div class="line"></div>
                 <div id="select"></div>
                 <div id="direction">
-                    <button id="auto" disabled>自动</button>
-                    <button id="zhcn-en">中->英</button>
-                    <button id="en-zhcn">英->中</button>
+                    <div class="translate-mode">自动翻译 <i class="iconfont icon-down"></i></div>
+                    <div class="menu">
+                        <div class="menu-item" id="auto">自 动</div>
+                        <div class="menu-item" id="zhcn-en">中 > 英</div>
+                        <div class="menu-item" id="en-zhcn">英 > 中</div>
+                    </div>
                 </div>
             </div>
             <textarea id="out" readonly></textarea>
@@ -28,21 +34,18 @@
             <div class="mask"></div>
             <div id="options-body">
                 <div id="options-items">
-
                 </div>
                 <div class="bottom">
                     <button id="option-save">保存</button>
                     <button id="option-cancel">取消</button>
                 </div>
-                
             </div>
-            
         </div>
         <div id="bottom">
             <div id="copyright"> ©️ ImDong </div>
 
-            <button id="copy">复制 ( Ctrl + C )</button>
-            <button id="setting">设置</button>
+            <button id="copy" class="button">复制 ( Ctrl + C )</button>
+            <i id="setting" class="iconfont icon-setting"></i>
         </div>
 
         <template id="options-item-template">
@@ -51,7 +54,8 @@
                 <div class="content">
                     <div class="input">
                         <label for="{sdk}_{key}">{label}</label>
-                        <input type="text" id="{sdk}-{key}" name="{sdk}-{key}" placeholder="{value_mask}" value="{value}">
+                        <input type="text" id="{sdk}-{key}" name="{sdk}-{key}" placeholder="{value_mask}"
+                            value="{value}">
                     </div>
                 </div>
             </div>
