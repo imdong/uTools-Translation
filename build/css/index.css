@@ -1,5 +1,6 @@
 :root {
   --main-color: #f4ba57;
+  --main-color-rgb: 244, 186, 87;
   --main-text-color: #303133;
   --sub-color: #c0c4cc;
   --pure-white: #ffffff;
@@ -17,7 +18,7 @@ body {
 textarea {
   border: 1px solid #fff;
   outline-width: thin;
-  outline-color: var(--main-color);
+  outline: none;
   font-size: 14px;
   padding: 10px;
   box-sizing: border-box;
@@ -37,15 +38,20 @@ textarea {
   margin-left: 0;
   margin-right: 3px;
   line-height: 35px;
+  transition: 0.5s all;
 }
-#select button:disabled {
+#select button:hover {
+  background: rgba(var(--main-color-rgb), 0.1);
+}
+#select button:disabled,
+#select button:disabled:hover {
   border-bottom: 1px solid var(--pure-white);
   color: var(--main-color);
+  opacity: 1;
   background: var(--pure-white);
 }
 .line {
   border-bottom: 1px solid var(--border-color);
-  /* transform: scaleY(0.5); */
   position: absolute;
   bottom: 0;
   left: 0;
@@ -62,48 +68,74 @@ textarea {
   box-sizing: border-box;
   text-align: center;
 }
+
 #direction .translate-mode i {
   color: #fff;
   font-size: 15px;
 }
 #direction .menu {
+  border-top: 20px solid transparent;
   position: absolute;
-  background: #fff;
-  width: 100px;
-  line-height: 34px;
-  text-align: center;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--box-shadow);
   top: 90px;
-  border-radius: 4px;
-  padding: 5px;
   visibility: hidden;
   opacity: 0;
   transition: 0.3s all;
+  left: 5px;
 }
-#direction .menu div:hover {
-  background-color: #f7f7f7;
+#direction .translate-mode:hover + .menu,
+#direction .menu:hover {
+  visibility: visible;
+  opacity: 1;
+  top: 25px;
+}
+#direction .menu > div {
+  width: 100px;
+  line-height: 34px;
+  background: #fff;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--box-shadow);
+  border-radius: 4px;
+  padding: 5px;
+}
+#direction .menu > div div:hover {
+  background: rgba(var(--main-color-rgb), 0.1);
   transition: 0.3s all;
 }
-#direction .menu:before {
+#direction .menu > div:before {
   position: absolute;
-  top: -16px;
+  top: -15px;
   right: 50%;
+  transform: translateX(8px);
   border: 8px solid transparent;
   border-bottom: 8px solid #ffffff;
   content: "";
   z-index: 12;
 }
-#direction .menu:after {
+#direction .menu > div:after {
   width: 0px;
   height: 0px;
   position: absolute;
   top: -18px;
   right: calc(50% + 1px);
+  transform: translateX(8px);
   padding: 0;
   border: 9px solid transparent;
   border-bottom: 9px solid var(--border-color);
   content: "";
+}
+#copy:hover > .button-hover {
+  top: 0;
+}
+.button-hover {
+  position: absolute;
+  top: -35px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: sepia(200%);
+  background: rgba(var(--main-color-rgb), 0.3);
+  transition: 0.3s all;
 }
 /* 常用 */
 .button {
@@ -138,6 +170,7 @@ textarea {
 }
 #direction {
   float: none;
+  position: relative;
 }
 #copyright {
   padding-top: 0;
@@ -158,6 +191,8 @@ textarea {
 #copy {
   height: auto;
   width: auto;
+  position: relative;
+  overflow: hidden;
 }
 #setting {
   float: none;

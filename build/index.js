@@ -7,7 +7,7 @@ let in_text = '',
     setting_dom = document.getElementById('setting'),
     options_dom = document.getElementById('options'),
     options_body_dom = document.getElementById('options-items'),
-    menu_dom = document.querySelector('.menu');
+    translate_dom = document.querySelector('.translate-mode');
 select = 'google',
     direction = 'auto',
     use_default = false,
@@ -45,29 +45,10 @@ select_dom.addEventListener('click', (event) => {
     filter_delay(0)
 });
 
-document.body.addEventListener('click', (event) => {
-    const hidden = () => {
-        menu_dom.style.visibility = 'hidden'
-        menu_dom.style.top = '90px'
-        menu_dom.style.opacity = 0
-    }
-    if (event.target.className != 'menu-item') {
-        if (event.target.className === 'translate-mode') {
-            if (menu_dom.style.visibility != 'visible') {
-                menu_dom.style.visibility = 'visible'
-                menu_dom.style.top = '45px'
-                menu_dom.style.opacity = 1
-            } else {
-                hidden()
-            }
-        } else {
-            hidden()
-        }
-    } else {
-        direction = event.target.id;
-        filter_delay(0);
-        hidden();
-    }
+document.querySelector('.menu>div').addEventListener('click', (event) => {
+    translate_dom.innerHTML = event.target.innerText + ' <i class="iconfont icon-down"></i>';
+    direction = event.target.id;
+    filter_delay(0);
     event.stopPropagation();
 })
 
