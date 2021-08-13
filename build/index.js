@@ -7,8 +7,7 @@ let in_text = '',
     setting_dom = document.getElementById('setting'),
     options_dom = document.getElementById('options'),
     options_body_dom = document.getElementById('options-items'),
-    menu_dom = document.querySelector('.menu');
-select = 'google',
+    select = 'google',
     direction = 'auto',
     use_default = false,
     translate = new Translate(),
@@ -44,33 +43,13 @@ select_dom.addEventListener('click', (event) => {
 
     filter_delay(0)
 });
+document.getElementById('direction').addEventListener('click', (event) => {
+    document.getElementById(direction).disabled = false;
+    direction = event.target.id;
+    document.getElementById(direction).disabled = true;
 
-document.body.addEventListener('click', (event) => {
-    const hidden = () => {
-        menu_dom.style.visibility = 'hidden'
-        menu_dom.style.top = '90px'
-        menu_dom.style.opacity = 0
-    }
-    if (event.target.className != 'menu-item') {
-        if (event.target.className === 'translate-mode') {
-            if (menu_dom.style.visibility != 'visible') {
-                menu_dom.style.visibility = 'visible'
-                menu_dom.style.top = '45px'
-                menu_dom.style.opacity = 1
-            } else {
-                hidden()
-            }
-        } else {
-            hidden()
-        }
-    } else {
-        direction = event.target.id;
-        filter_delay(0);
-        hidden();
-    }
-    event.stopPropagation();
-})
-
+    filter_delay(0);
+});
 
 // 设置按钮事件
 function optionCancel(event) {
@@ -333,14 +312,4 @@ function init_options() {
 
         options_body_dom.append(div.querySelector('.options-item'));
     }
-}
-
-// 设置CSS变量
-function set_css_var(key, val) {
-    return document.documentElement.style.setProperty(key, val);
-}
-
-// 读取CSS变量
-function get_css_var(key) {
-    return getComputedStyle(document.documentElement).getPropertyValue(key);
 }
