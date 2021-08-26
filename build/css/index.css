@@ -137,6 +137,35 @@ textarea {
   background: rgba(var(--main-color-rgb), 0.3);
   transition: 0.3s all;
 }
+#option-save {
+  margin-left: 25px;
+}
+#option-cancel {
+  background: var(--sub-color);
+}
+.input {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-around;
+}
+.input input {
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid var(--sub-color);
+  border-radius: 3px;
+  padding-left: 10px;
+}
+.input input:focus {
+  border-color: var(--main-color);
+  background-color: rgba(var(--main-color-rgb), 0.05);
+}
+#options-items {
+  height: 330px;
+  overflow: auto;
+}
+#options-items::-webkit-scrollbar {
+  width: 0;
+}
 /* 常用 */
 .button {
   background: var(--main-color);
@@ -182,7 +211,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 10px;
   box-sizing: border-box;
 }
 #options {
