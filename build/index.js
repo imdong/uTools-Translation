@@ -359,6 +359,8 @@ function init_options() {
 function set_css_var(key, val) {
     return document.documentElement.style.setProperty(key, val);
 }
+set_css_var('--main-color', '#594bfa')
+set_css_var('--main-color-rgb', 'rgb(95, 155, 255)')
 
 // 读取CSS变量
 function get_css_var(key) {
