@@ -7,6 +7,7 @@
 
     let reauthuri = "",
         languageMap = {
+            auto: 'auto',
             zhcn: 'zh',
             en: 'en',
         };

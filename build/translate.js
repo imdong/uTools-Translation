@@ -20,7 +20,7 @@
      * @param {Object} sdk.title SDK 的名称 如 百度翻译
      * @param {Object} sdk.languages 支持的语言列表 ["auto", en', 'zhcn']
      * @param {Object} sdk.options 配置项 {ak: '', sk: ''}
-     * @param {Object} sdk.translate.go 待注册的sdk的翻译方法
+     * @param {Object} sdk.go 待注册的sdk的翻译方法
      */
     Translate.register = function (sdk) {
         sdk_list[sdk.name] = sdk;
@@ -45,11 +45,12 @@
      * @param {*} to 
      */
     Translate.prototype.go = function (text, sdk, direction) {
-        let source_language = 'en', out_language = 'zhcn';
+        // 识别语言
+        let source_language = 'auto', out_language = 'zhcn';
         switch (direction) {
             case 'auto':
                 if (this.isChinese(text)) {
-                    source_language = 'zhcn', out_language = 'en';
+                    source_language = 'auto', out_language = 'en';
                 }
                 break;
             default:
@@ -58,6 +59,8 @@
                 out_language = directions[1];
                 break;
         }
+
+        // 检查sdk是否支持该语言
 
         // 判断运行时环境 调用对应的 SDK 执行
         if (typeof utools == "object") {

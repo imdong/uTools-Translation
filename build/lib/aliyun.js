@@ -31,6 +31,7 @@
     }
 
     languageMap = {
+        auto:'auto',
         zhcn: "zh",
         en: "en",
     };
@@ -69,8 +70,6 @@
             TargetLanguage: languageMap[to],
             SourceText: encodeURIComponent(text)
         });
-
-        // let postBody = '{"Action":"TranslateGeneral","FormatType":"text","SourceLanguage":"en","TargetLanguage":"zh","SourceText":"text","Scene":"general"}';
 
         let signature = buildSignature(postBody);
 

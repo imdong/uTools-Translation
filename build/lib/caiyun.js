@@ -1,5 +1,6 @@
 (function () {
     const languageMap = {
+        auto:"auto",
         zhcn: "zh",
         en: "en",
     };

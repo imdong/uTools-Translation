@@ -5,7 +5,7 @@
         service = "tmt",
         action = 'TextTranslate',
         version = "2018-03-21";
-        
+
     function sha256(message, secret = '', encoding) {
         const hmac = exports.crypto.createHmac('sha256', secret)
         return hmac.update(message).digest(encoding)
@@ -76,6 +76,7 @@
     }
 
     let languageMap = {
+        auto: 'auto',
         zhcn: 'zh',
         en: 'en'
     };
@@ -109,7 +110,6 @@
      */
     sdk.go = function (text, source, to) {
         console.log(this)
-
 
         let payload = JSON.stringify({
             "SourceText": text,

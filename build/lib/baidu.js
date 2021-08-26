@@ -1,6 +1,7 @@
 (function () {
     const token = '';
     const languageMap = {
+        auto: 'auto',
         zhcn: "zh",
         en: "en",
     };

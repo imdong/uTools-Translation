@@ -3,6 +3,7 @@
     let api_url = 'https://translate.google.cn/translate_a/single',
         // 语言对照表
         languageMap = {
+            auto: 'auto',
             zhcn: 'zh-CN',
             en: 'en'
         };
@@ -85,7 +86,7 @@
             ajax(api_url + '?' + queryData.join('&'), (result, xhr) => {
                 let data = JSON.parse(xhr.responseText),
                     ret_data = '';
-                    console.log(data);
+                console.log(data);
 
                 data['0'].forEach(item => {
                     ret_data += item[0];
