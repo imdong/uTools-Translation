@@ -52,7 +52,6 @@ document.querySelector('.menu>div').addEventListener('click', (event) => {
     event.stopPropagation();
 })
 
-
 // 设置按钮事件
 function optionCancel(event) {
     console.log('optionCancel')
@@ -147,8 +146,6 @@ if (typeof utools == 'object') {
                 filter_delay(0)
             }
         })
-
-
         console.log('onPluginReady')
 
         // 获取用户配置信息
@@ -181,17 +178,24 @@ document.getElementById('option-save').addEventListener('click', (event) => {
     updateOptionToSDK();
 
     // 保存配置
+    saveOptionToDb();
+
+    // 隐藏配置窗口
+    optionCancel();
+});
+
+function saveOptionToDb() {
+    // 有些东西不需要保存
+    delete exports.config.blockToken;
+
+    // 保存配置
     let result = utools.db.put({
         _id: "config",
         data: JSON.stringify(exports.config),
         _rev: config_rev
     })
     config_rev = result._rev;
-    console.log(result);
-
-    // 隐藏配置窗口
-    optionCancel();
-});
+}
 
 // 从数据库加载配置
 function loadConfig() {
@@ -200,10 +204,45 @@ function loadConfig() {
 
     if (result) {
         config_rev = result._rev;
-        exports.config = JSON.parse(result.data);
+        result.data = JSON.parse(result.data);
+
+        // 检查版本更新的问题
+        if (result.data.version != exports.config.version) {
+            console.log('刚刚更新了版本');
+            result.data = pluginUpdateVersion(result.data);
+        }
+
+        exports.config = Object.assign(exports.config, result.data);
     }
 
     updateOptionToSDK();
+}
+
+// 插件发生了更新
+function pluginUpdateVersion(data) {
+    // 遍历所有 sdk 的 key 设置
+    let is_update = false;
+    if (exports.config.blockToken) {
+        for (let sdk_name in data.options) {
+            let sdk_option = data.options[sdk_name];
+            for (let option_key in sdk_option) {
+                let md5 = (new exports.crypto.createHash('md5')).update(sdk_option[option_key]).digest('hex');
+                if (exports.config.blockToken.indexOf(md5) >= 0) {
+                    sdk_option[option_key] = '';
+                    is_update = true;
+                }
+            }
+        }
+    }
+
+    if (is_update) {
+        exports.config = Object.assign(exports.config, data);
+
+        // 保存数据
+        saveOptionToDb();
+    }
+
+    return JSON.stringify(data);
 }
 
 // 空的复制

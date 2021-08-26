@@ -60,7 +60,18 @@
                 break;
         }
 
-        // 检查sdk是否支持该语言
+        // 检查是否配置了token
+        console.log('token check', sdk_list[sdk].options);
+        if (sdk_list[sdk].options) {
+            for (const key in sdk_list[sdk].options) {
+                if (sdk_list[sdk].options[key].value.length <= 0) {
+                    console.log('token check failed');
+                    return new Promise((resolve, reject) => {
+                        reject('还有没有设置自己的 ' + key + ' 值，请先申请 Key 后使用。');
+                    });
+                }
+            }
+        }
 
         // 判断运行时环境 调用对应的 SDK 执行
         if (typeof utools == "object") {
