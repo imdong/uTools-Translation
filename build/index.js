@@ -191,11 +191,12 @@ document.getElementById('option-save').addEventListener('click', (event) => {
 function saveOptionToDb() {
     // 有些东西不需要保存
     delete exports.config.blockToken;
+    console.log('saveOptionToDb', JSON.stringify(exports.config));
 
     // 保存配置
     let result = utools.db.put({
         _id: "config",
-        data: JSON.stringify(exports.config),
+        data: exports.config,
         _rev: config_rev
     })
     config_rev = result._rev;
@@ -204,11 +205,10 @@ function saveOptionToDb() {
 // 从数据库加载配置
 function loadConfig() {
     let result = utools.db.get("config");
-    console.log(result);
+    console.log('loadConfig', result);
 
     if (result) {
         config_rev = result._rev;
-        result.data = JSON.parse(result.data);
 
         // 检查版本更新的问题
         if (result.data.version != exports.config.version) {
@@ -249,7 +249,7 @@ function pluginUpdateVersion(data) {
         saveOptionToDb();
     }
 
-    return JSON.stringify(data);
+    return data;
 }
 
 // 还原 UI 设置
