@@ -8,6 +8,7 @@ let in_text = '',
     options_dom = document.getElementById('options'),
     options_body_dom = document.getElementById('options-items'),
     translate_dom = document.querySelector('.translate-mode'),
+    help_dom = document.querySelector('#help'),
     use_default = false,
     translate = new Translate(),
     config_rev = null;
@@ -161,6 +162,10 @@ if (typeof utools == 'object') {
         // 复制结果
         set_copy();
 
+        // 打开教程页面
+        help_dom.addEventListener('click', (event) => {
+            utools.shellOpenExternal(event.target.href);
+        });
     });
 }
 
@@ -309,6 +314,7 @@ function init_sdk() {
 // 更新配置到 SDK
 function updateOptionToSDK() {
     console.log('updateOptionToSDK')
+
     let sdk_list = translate.getSdk();
     for (const sdk_name in sdk_list) {
         if (typeof exports.config.options[sdk_name] == 'object') {
