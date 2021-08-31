@@ -8,8 +8,6 @@ let in_text = '',
     options_dom = document.getElementById('options'),
     options_body_dom = document.getElementById('options-items'),
     translate_dom = document.querySelector('.translate-mode'),
-    select = 'google',
-    direction = 'auto',
     use_default = false,
     translate = new Translate(),
     config_rev = null;
@@ -24,7 +22,7 @@ for (const key in translate.getSdk()) {
     if (item.is_default && !use_default) {
         use_default = true;
         btn.disabled = true;
-        select = item.name;
+        exports.config.ui_default.select = item.name;
     }
     select_dom.append(btn);
 }
@@ -32,24 +30,30 @@ for (const key in translate.getSdk()) {
 // 到现在还没有默认就第一个为默认
 if (!use_default) {
     let def_dom = select_dom.querySelector('button');
-    select = def_dom.id;
+    exports.config.ui_default.select = def_dom.id;
     def_dom.disabled = true;
 }
 
 // 监听按钮事件
 select_dom.addEventListener('click', (event) => {
-    document.getElementById(select).disabled = false;
-    select = event.target.id;
-    document.getElementById(select).disabled = true;
+    document.getElementById(exports.config.ui_default.select).disabled = false;
+    exports.config.ui_default.select = event.target.id;
+    document.getElementById(exports.config.ui_default.select).disabled = true;
 
     filter_delay(0)
+
+    // 保存同步配置
+    saveOptionToDb();
 });
 
 document.querySelector('.menu>div').addEventListener('click', (event) => {
     translate_dom.innerHTML = event.target.innerText + ' <i class="iconfont icon-down"></i>';
-    direction = event.target.id;
+    exports.config.ui_default.direction = event.target.id;
     filter_delay(0);
     event.stopPropagation();
+
+    // 保存同步配置
+    saveOptionToDb();
 })
 
 // 设置按钮事件
@@ -92,7 +96,7 @@ function filter_delay(timeout) {
                     out_dom.value = "翻译中...";
 
                     in_text = in_dom.value;
-                    translate.go(in_dom.value, select, direction).then(result => {
+                    translate.go(in_dom.value, exports.config.ui_default.select, exports.config.ui_default.direction).then(result => {
                         out_dom.value = result;
                     }).catch(err => {
                         out_dom.value = "啊哦，出错啦!!1\n\n(" + err + ")";
@@ -216,6 +220,9 @@ function loadConfig() {
     }
 
     updateOptionToSDK();
+
+    // 设置 UI 相关的设置还原
+    set_ui_default();
 }
 
 // 插件发生了更新
@@ -243,6 +250,21 @@ function pluginUpdateVersion(data) {
     }
 
     return JSON.stringify(data);
+}
+
+// 还原 UI 设置
+function set_ui_default() {
+    // 设置默认翻译源
+    document.getElementById('select').querySelectorAll('button').forEach(item => item.disabled = false);
+    document.getElementById(exports.config.ui_default.select).disabled = true;
+
+    // 设置默认翻译方向
+    let direction_map = {
+        auto: '自动翻译',
+        "zhcn-en": '中 > 英',
+        "en-zhcn": '英 > 中',
+    }
+    translate_dom.innerHTML = direction_map[exports.config.ui_default.direction || 'auto'] + ' <i class="iconfont icon-down"></i>';
 }
 
 // 空的复制
@@ -359,8 +381,8 @@ function init_options() {
 function set_css_var(key, val) {
     return document.documentElement.style.setProperty(key, val);
 }
-set_css_var('--main-color', '#594bfa')
-set_css_var('--main-color-rgb', 'rgb(95, 155, 255)')
+set_css_var('--main-color', 'rgb(0, 151, 216)')
+set_css_var('--main-color-rgb', 'rgb(0, 151, 216)')
 
 // 读取CSS变量
 function get_css_var(key) {
