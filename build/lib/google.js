@@ -52,10 +52,10 @@
 
     sdk.go = function (text, source, target) {
         let data = {
-            client: 'webapp',
+            client: 't',
             sl: languageMap[source],
             tl: languageMap[target],
-            hl: 'zh-CN',
+            hl: languageMap[target],
             dt: 'at',
             dt: 'bd',
             dt: 'ex',
@@ -64,15 +64,17 @@
             dt: 'qca',
             dt: 'rw',
             dt: 'rm',
-            dt: 'sos',
+            // dt: 'sos',
             dt: 'ss',
             dt: 't',
-            pc: 1,
+            ie: 'UTF-8',
+            oe: 'UTF-8',
+            // pc: 1,
             otf: 1,
             ssel: 0,
             tsel: 0,
             xid: 45662847,
-            kc: 1,
+            kc: 7,
             tk: getTk(text),
             q: text
         },
