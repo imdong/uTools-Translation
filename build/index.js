@@ -20,7 +20,7 @@ for (const key in sdk_list) {
     if (item.is_default && !use_default) {
         use_default = true;
         btn.disabled = true;
-        select = item.name;
+        exports.config.ui_default.select = item.name || 'google';
     }
     select_dom.append(btn);
 }
